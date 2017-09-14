@@ -25,7 +25,6 @@
         <activity
             android:name=".view.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".view.FirstActivity" />
     </application>
 

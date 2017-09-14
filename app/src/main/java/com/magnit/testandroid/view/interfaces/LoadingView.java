@@ -7,5 +7,6 @@ import java.util.ArrayList;
 
 interface LoadingView {
     void showList(ArrayList<Values> values);
+
     void showMessage(String message);
 }

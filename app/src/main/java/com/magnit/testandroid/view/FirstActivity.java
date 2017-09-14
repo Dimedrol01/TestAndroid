@@ -3,7 +3,6 @@ package com.magnit.testandroid.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +12,8 @@ import android.widget.Toast;
 
 import com.magnit.testandroid.R;
 import com.magnit.testandroid.model.Values;
-import com.magnit.testandroid.presenter.interfaces.FirstPresenter;
 import com.magnit.testandroid.presenter.FirstPresenterImpl;
+import com.magnit.testandroid.presenter.interfaces.FirstPresenter;
 import com.magnit.testandroid.view.custom.Adapter;
 import com.magnit.testandroid.view.interfaces.FirstView;
 
@@ -37,6 +36,7 @@ public class FirstActivity extends AppCompatActivity implements FirstView, Adapt
     @Override
     protected void onResume() {
         super.onResume();
+        //перед тем, как UI станет доступен пользователю загружаем список с историей
         mFirstPresenter.loadingData();
     }
 

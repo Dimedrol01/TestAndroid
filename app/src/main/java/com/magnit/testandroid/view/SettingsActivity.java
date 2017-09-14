@@ -24,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView,
     private EditText mRatio;
     private SettingsPresenter mSettingsPresenter;
     private ListView mListHistory;
+    private Adapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView,
     @Override
     protected void onResume() {
         super.onResume();
+        //перед тем, как UI станет доступен пользователю загружаем список с историей
         mSettingsPresenter.loadingData();
     }
 
@@ -55,17 +57,20 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView,
     }
 
     @Override
-    public void cleanInputFields() {
+    public void clearFocusInputFields() {
         mNumberRow.clearFocus();
-        mNumberRow.setText("");
         mRatio.clearFocus();
-        mRatio.setText("");
+    }
+
+    @Override
+    public void updateListLocally() {
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showList(ArrayList<Values> values) {
-        Adapter adapter = new Adapter(this, values);
-        mListHistory.setAdapter(adapter);
+        mAdapter = new Adapter(this, values);
+        mListHistory.setAdapter(mAdapter);
     }
 
     @Override
@@ -76,6 +81,5 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView,
     @Override
     public void onClick(View view) {
         mSettingsPresenter.makeChanges(mNumberRow.getText().toString(), mRatio.getText().toString());
-        mSettingsPresenter.loadingData();
     }
 }

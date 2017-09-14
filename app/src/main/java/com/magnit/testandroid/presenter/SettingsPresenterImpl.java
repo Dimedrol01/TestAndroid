@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class SettingsPresenterImpl implements SettingsPresenter {
     private ManagerDbImpl mManagerDbImpl;
     private SettingsView mSettingsView;
+    private ArrayList<Values> mValues;
 
     public SettingsPresenterImpl(SettingsView settingsView) {
         this.mSettingsView = settingsView;
@@ -26,7 +27,7 @@ public class SettingsPresenterImpl implements SettingsPresenter {
     public void makeChanges(String row, String ratio) {
         try {
             if (row.isEmpty()) {
-                mSettingsView.showMessageErrorNumberRow(R.string.absent_line_number);
+                        mSettingsView.showMessageErrorNumberRow(R.string.absent_line_number);
             }
             if (ratio.isEmpty()) {
                 mSettingsView.showMessageErrorRatio(R.string.absent_value);
@@ -36,9 +37,13 @@ public class SettingsPresenterImpl implements SettingsPresenter {
                 float ratioRow = Float.parseFloat(ratio);
                 if (numberRow >= 0 && numberRow <= 99) {
                     if (ratioRow >= 0.0 && ratioRow <= 1.0) {
-                        mManagerDbImpl.updateValue(new Values(numberRow, ratioRow));
+                        Values value = new Values(numberRow, ratioRow);
+                        mManagerDbImpl.updateValue(value);
                         mManagerDbImpl.addValue(new Values(numberRow, ratioRow), InfoDb.DbHistory.TABLE_NAME, new String[]{InfoDb.DbHistory.COLUMN_NAME_ID_MAIN, InfoDb.DbHistory.COLUMN_NAME_RATIO});
-                        mSettingsView.cleanInputFields();
+                        mSettingsView.clearFocusInputFields();
+                        mValues.add(value);
+                        //Чтобы лишний раз не обращаться в бд, обновляю список истории локально. Потому что после нажатия кнопки остаюсь на этой activity
+                        mSettingsView.updateListLocally();
                     } else {
                         mSettingsView.showMessageErrorRatio(R.string.value_outside_range);
                     }
@@ -74,8 +79,9 @@ public class SettingsPresenterImpl implements SettingsPresenter {
 
         @Override
         protected void onPostExecute(ArrayList<Values> values) {
+            mValues = values;
             //в главном потоке добавляем их на ListView
-            mSettingsView.showList(values);
+            mSettingsView.showList(mValues);
         }
     }
 }
