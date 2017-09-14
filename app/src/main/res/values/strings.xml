@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Test</string>
+    <string name="title_activity_first">Screen Title</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="error_creating_list">Ошибка при формировании списка</string>
+    <string name="name_button">Button</string>
+    <string name="name_item_menu">Настройки</string>
+    <string name="ok">Ok</string>
+    <string name="text_ratio">% (0...1)</string>
+    <string name="text_row">Row</string>
+    <string name="invalid_line_number">Неверный номер строки</string>
+    <string name="value_outside_range">Значение за пределами диапазона</string>
+    <string name="absent_line_number">Не указан номер строки</string>
+    <string name="absent_value">Не указано значение</string>
+</resources>
